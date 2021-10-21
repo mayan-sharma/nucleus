@@ -1,10 +1,10 @@
 import ReactDOM from 'react-dom';
 
-import Draw from './components/Draw';
+import Code from './components/Code';
 
 const App = () => {
     return (
-        <Draw />
+        <Code />
     );
 }
 
