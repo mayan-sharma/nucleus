@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 
-import Code from './components/Code';
+import Code from './components/code/Code';
 
 const App = () => {
     return (
