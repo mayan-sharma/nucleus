@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import CodeEditor from './editor/CodeEditor';
 import Preview from './preview/Preview';
@@ -10,7 +10,18 @@ const Code: React.FC = () => {
     const [input, setInput] = useState('');
     const [code, setCode] = useState('');
 
-    const handleClick = async () => {
+    // debouncing
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            handleBundling();
+        }, 1000);
+
+        return () => {
+            clearInterval(timer);
+        }
+    }, [input]);
+
+    const handleBundling = async () => {
         try {
             const res = await bundler(input);
             setCode(res);
