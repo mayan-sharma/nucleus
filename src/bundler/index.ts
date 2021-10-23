@@ -6,27 +6,38 @@ import { unpkLoadPlugin } from './plugins/unpk-load';
 let isInitiated = false;
 
 const bundler = async (rawCode: string) => {
-
-    if (!isInitiated) {
-        await esbuild.initialize({
-            worker: true,
-            wasmURL: 'https://unpkg.com/esbuild-wasm/esbuild.wasm'
-        });
-        isInitiated = true;
-    }
-
-    const res = await esbuild.build({
-        entryPoints: ['index.js'],
-        bundle: true,
-        write: false,
-        plugins: [unkpResolvePlugin(), unpkLoadPlugin(rawCode)],
-        define: {
-            'process.env.NODE_ENV': '"production"',
-            global: 'window'
+    try {
+        if (!isInitiated) {
+            await esbuild.initialize({
+                worker: true,
+                wasmURL: 'https://unpkg.com/esbuild-wasm/esbuild.wasm'
+            });
+            isInitiated = true;
         }
-    });
-
-    return res.outputFiles[0].text;
+    
+        const res = await esbuild.build({
+            entryPoints: ['index.js'],
+            bundle: true,
+            write: false,
+            plugins: [unkpResolvePlugin(), unpkLoadPlugin(rawCode)],
+            define: {
+                'process.env.NODE_ENV': '"production"',
+                global: 'window'
+            }
+        });
+    
+        return  {
+            code: res.outputFiles[0].text,
+            err: ''
+        }
+    
+    } catch (err: any) {
+        console.log('Bundling Error: ', err);
+        return {
+            code: '',
+            err: err.message
+        }
+    }
 }
 
 export default bundler;

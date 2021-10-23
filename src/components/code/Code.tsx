@@ -6,9 +6,10 @@ import bundler from '../../bundler';
 import Resizable from '../resizable/Resizable';
 
 const Code: React.FC = () => {
-    
+
     const [input, setInput] = useState('');
     const [code, setCode] = useState('');
+    const [err, setErr] = useState('');
 
     // debouncing
     useEffect(() => {
@@ -24,25 +25,24 @@ const Code: React.FC = () => {
     const handleBundling = async () => {
         try {
             const res = await bundler(input);
-            setCode(res);
-            
+            setCode(res.code);
+            setErr(res.err);
+
         } catch (err) {
             console.log(err);
         }
     }
-    
+
     return (
-        <Resizable direction='vertical'>
-            <div style={{ display: 'flex', height: '100%' }}>
-                <Resizable direction='horizontal'>
-                    <CodeEditor 
-                        initialValue='// Type your code here'
-                        onChange={value => setInput(value)}
-                    />
-                </Resizable>
-                <Preview code={code} />
-            </div>
-        </Resizable>
+        <div style={{ display: 'flex', height: '90vh' }}>
+            <Resizable direction='horizontal'>
+                <CodeEditor
+                    initialValue='// Type your code here'
+                    onChange={value => setInput(value)}
+                />
+            </Resizable>
+            <Preview code={code} error={err} />
+        </div>
     );
 }
 
