@@ -1,10 +1,14 @@
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
+import { store } from './state';
 import Notebook from './components/markdown/MarkdownCell';
 
 const App = () => {
     return (
-        <Notebook />
+        <Provider store={store}>
+            <Notebook />
+        </Provider>
     );
 }
 
