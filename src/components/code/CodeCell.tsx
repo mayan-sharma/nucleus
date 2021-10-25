@@ -34,15 +34,17 @@ const Code: React.FC = () => {
     }
 
     return (
-        <div style={{ display: 'flex', height: '90vh' }}>
-            <Resizable direction='horizontal'>
-                <CodeEditor
-                    initialValue='// Type your code here'
-                    onChange={value => setInput(value)}
-                />
-            </Resizable>
-            <Preview code={code} error={err} />
-        </div>
+        <Resizable direction='vertical'>
+            <div style={{ display: 'flex', height: '100%' }}>
+                <Resizable direction='horizontal'>
+                    <CodeEditor
+                        initialValue='// Type your code here'
+                        onChange={value => setInput(value)}
+                    />
+                </Resizable>
+                <Preview code={code} error={err} />
+            </div>
+        </Resizable>
     );
 }
 

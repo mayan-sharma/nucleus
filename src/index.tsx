@@ -1,10 +1,10 @@
 import ReactDOM from 'react-dom';
 
-import Code from './components/code/Code';
+import Notebook from './components/markdown/MarkdownCell';
 
 const App = () => {
     return (
-        <Code />
+        <Notebook />
     );
 }
 
