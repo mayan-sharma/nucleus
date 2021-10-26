@@ -1,12 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 
-import CodeCell from "../code/CodeCell";
 import './markdown-cell.css';
+import { Cell } from '../../state';
+import { useActions } from '../../hooks/useActions';
 
-const MarkdownCell: React.FC = () => {
+interface MarkdownCellProps {
+    cell: Cell
+}
+
+const MarkdownCell: React.FC<MarkdownCellProps> = ({ cell }) => {
     
-    const [text, setText] = useState('Hello');
+    const { updateCell } = useActions();
     const [editing, setEditing] = useState(false);
     const ref = useRef<HTMLDivElement | null>(null);
 
@@ -28,8 +33,8 @@ const MarkdownCell: React.FC = () => {
         return (
             <div className='markdown-editor' ref={ref}>
                 <MDEditor
-                    value={text}
-                    onChange={(val) => setText(val!)}
+                    value={cell.content}
+                    onChange={(val) => updateCell(cell.id, val!)}
                 />
             </div>
         );
@@ -37,7 +42,7 @@ const MarkdownCell: React.FC = () => {
 
     return (
         <div className='markdown-editor card' onClick={() => setEditing(true)}>
-            <MDEditor.Markdown source={text} />
+            <MDEditor.Markdown source={cell.content || 'Click to edit'} />
         </div>
     );
 }

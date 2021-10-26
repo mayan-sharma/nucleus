@@ -1,16 +1,23 @@
 import { useState, useEffect } from 'react';
 
-import CodeEditor from './editor/CodeEditor';
-import Preview from './preview/Preview';
+import { Cell } from '../../state';
 import bundler from '../../bundler';
+import Preview from './preview/Preview';
 import Resizable from '../resizable/Resizable';
+import CodeEditor from './editor/CodeEditor';
+import { useActions } from '../../hooks/useActions';
 
-const Code: React.FC = () => {
+interface CodeProps {
+    cell: Cell
+}
 
-    const [input, setInput] = useState('');
+const Code: React.FC<CodeProps> = ({ cell }) => {
+
     const [code, setCode] = useState('');
     const [err, setErr] = useState('');
 
+    const { updateCell } = useActions();
+    
     // debouncing
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -20,11 +27,11 @@ const Code: React.FC = () => {
         return () => {
             clearInterval(timer);
         }
-    }, [input]);
+    }, [cell.content]);
 
     const handleBundling = async () => {
         try {
-            const res = await bundler(input);
+            const res = await bundler(cell.content);
             setCode(res.code);
             setErr(res.err);
 
@@ -38,8 +45,8 @@ const Code: React.FC = () => {
             <div style={{ display: 'flex', height: '100%' }}>
                 <Resizable direction='horizontal'>
                     <CodeEditor
-                        initialValue='// Type your code here'
-                        onChange={value => setInput(value)}
+                        initialValue={cell.content}
+                        onChange={value => updateCell(cell.id, value)}
                     />
                 </Resizable>
                 <Preview code={code} error={err} />
