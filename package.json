@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@excalidraw/excalidraw": "^0.10.0",
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "@monaco-editor/react": "^4.3.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -17,7 +18,7 @@
     "@types/react-resizable": "^1.7.4",
     "@uiw/react-md-editor": "^3.6.5",
     "axios": "^0.23.0",
-    "esbuild-wasm": "^0.13.8",
+    "esbuild-wasm": "^0.13.9",
     "immer": "^9.0.6",
     "localforage": "^1.10.0",
     "monaco-editor": "^0.29.1",

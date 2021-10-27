@@ -1,0 +1,20 @@
+.add-cell {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0px;
+}
+
+.add-cell button {
+    margin: 0px 10px;
+}
+
+.add-cell .divider {
+    position: absolute;
+    top: 50%;
+    left: 2.5%;
+    right: 2.5%;
+    width: 90%;
+    border-bottom: 1px solid #808080;
+    z-index: -1;
+}
