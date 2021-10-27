@@ -17,11 +17,17 @@ interface CellState {
 const initialState: CellState = {
     loading: false,
     error: null,
-    order: [],
-    data: {}
+    order: ['genesis'],
+    data: {
+        'genesis': {
+            id: 'genesis',
+            type: 'code',
+            content: '// Welcome to nucleus.'
+        }
+    }
 }
 
-const reducer = produce((state: CellState = initialState, action: Action) => {
+const reducer = produce((state: CellState = initialState, action: Action): CellState => {
     switch (action.type) {
         case ActionType.UPDATE_CELL:
             const { id, content } = action.payload;
@@ -38,13 +44,13 @@ const reducer = produce((state: CellState = initialState, action: Action) => {
             const currIdx = state.order.findIndex(id => id === action.payload.id);
             const newIdx = direction === 'up' ? currIdx - 1 : currIdx + 1;
 
-            if (newIdx < 0 || newIdx === state.order.length) return;
+            if (newIdx < 0 || newIdx === state.order.length) return state;
         
             state.order[currIdx] = state.order[newIdx];
             state.order[newIdx] = action.payload.id;
             return state;
 
-        case ActionType.INSERT_CELL_BEFORE:
+        case ActionType.INSERT_CELL:
             const cell: Cell = {
                 content: '',
                 type: action.payload.type,
@@ -54,12 +60,12 @@ const reducer = produce((state: CellState = initialState, action: Action) => {
             state.data[cell.id] = cell;
             const idx = state.order.findIndex(id => id === action.payload.id);
 
-            if (idx < 0) state.order.push(cell.id);
-            else state.order.splice(idx, 0, cell.id);
+            if (idx < 0) state.order.unshift(cell.id);
+            else state.order.splice(idx + 1, 0, cell.id);
             return state;
 
         default: return state;
     }
-})
+});
 
 export default reducer;
