@@ -42,6 +42,7 @@ const Preview: React.FC<PreviewProps> = ({ code, error }) => {
 
     useEffect(() => {
         iframe.current.srcdoc = html;
+        // takes a little time to initiate event listeners in srcdoc
         setTimeout(() => {
             iframe.current.contentWindow.postMessage(code, '*');
         }, 50);

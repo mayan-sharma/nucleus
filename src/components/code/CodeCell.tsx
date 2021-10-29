@@ -1,3 +1,4 @@
+import './code-cell.css';
 import { Cell } from '../../state';
 import Preview from './preview/Preview';
 import Resizable from '../resizable/Resizable';
@@ -11,7 +12,7 @@ interface CodeProps {
 const Code: React.FC<CodeProps> = ({ cell }) => {
 
     const { updateCell } = useActions();
-    
+
     const bundle = useTypedSelector(state => state.bundles && state.bundles[cell.id]);
 
     return (
@@ -23,7 +24,15 @@ const Code: React.FC<CodeProps> = ({ cell }) => {
                         onChange={value => updateCell(cell.id, value)}
                     />
                 </Resizable>
-                <Preview code={bundle?.code || ''} error={bundle?.err || ''} />
+                {bundle?.loading ? (
+                    <div className='progress-container'>
+                        <progress max='100'>
+                            Loading
+                        </progress>
+                    </div>
+                ) : (
+                    <Preview code={bundle?.code || ''} error={bundle?.err || ''} />
+                )}
             </div>
         </Resizable>
     );
