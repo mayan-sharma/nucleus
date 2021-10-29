@@ -2,8 +2,7 @@ import { Cell } from '../../state';
 import Preview from './preview/Preview';
 import Resizable from '../resizable/Resizable';
 import CodeEditor from './editor/CodeEditor';
-import { useActions } from '../../hooks/useActions';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useActions, useTypedSelector } from '../../hooks';
 
 interface CodeProps {
     cell: Cell

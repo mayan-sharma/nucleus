@@ -11,26 +11,29 @@ export const bundler: Middleware = ({ getState, dispatch }) => (next) => (action
     }
 
     const { cells } = getState();
-
     const cell = cells?.data[action.payload.id];
-
-    if (cell?.type === 'markdown') {
+    
+    if (!cell || cell.type === 'markdown') {
         next(action);
         return;
-    };
+    }
 
     clearTimeout(timer);
     timer = setTimeout(async () => {
-        console.log('Starting bundling');
-        const output = await bundle(action.payload.content);
+        dispatch({ 
+            type: ActionType.BUNDLE_START,
+            payload: { cellId: cell.id }
+        });
+    
+        const result = await bundle(action.payload.content);
+    
         dispatch({
-            type: ActionType.BUNDLE_CREATED,
+            type: ActionType.BUNDLE_COMPLETE,
             payload: {
-                cellId: action.payload.id,
-                bundle: output
+                cellId: cell.id,
+                bundle: result
             }
         });
-        console.log('Bundle created');
     }, 1000);
 
     next(action);
