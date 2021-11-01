@@ -11,21 +11,30 @@ interface CodeProps {
 }
 
 const CodeCell: React.FC<CodeProps> = ({ cell }) => {
-
+    
     const { updateCell, createBundle } = useActions();
 
     const bundle = useTypedSelector(state => state.bundles && state.bundles[cell.id]);
 
+    const cumulativeCode = useTypedSelector(state => {
+            if (state.cells) {
+                const { data, order } = state.cells;
+                const orderedCells = order.map(id => data[id]);
+                return orderedCells.reduce((acc, cell) => acc + cell.content + '\n', '');
+            }
+            return '';
+        });
+
     useEffect(() => {
         const timer = setTimeout(() => {
-            createBundle(cell.id, cell.content);
+            createBundle(cell.id, cumulativeCode);
         }, 1000);
 
         return () => {
             clearTimeout(timer);
         }
 
-    }, [cell.id, cell.content]);
+    }, [cell.id, cumulativeCode, createBundle]);
 
     return (
         <Resizable direction='vertical'>
