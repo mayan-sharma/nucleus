@@ -16,7 +16,7 @@ const Notebook: React.FC = () => {
     );
 
     return (
-        <div>
+        <div style={{ margin: '20px', marginBottom: '40vh' }}>
             {showRenderedCells()}
         </div>
     );
