@@ -1,16 +1,17 @@
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from "react-router-dom";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+import './index.css';
+import App from './App';
 import { store } from './state';
-import Notebook from './components/notebook/Notebook';
 
-const App = () => {
-    return (
-        <Provider store={store}>
-            <Notebook />
-        </Provider>
-    );
-}
-
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(
+    <Provider store={store}>
+        <BrowserRouter>
+            <App /> 
+        </BrowserRouter>
+    </Provider>,
+    document.querySelector('#root')
+);
